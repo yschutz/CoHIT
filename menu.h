@@ -1,15 +1,8 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include <QMainWindow>
-
-class QListWidget;
-class QListWidgetItem;
-
-namespace Ui {
-class Menu;
-}
-
+#include <QtWidgets> // inclus tous le module widgets !
+#include "introwidget.h"
 class Menu : public QMainWindow
 {
     Q_OBJECT
@@ -17,11 +10,14 @@ class Menu : public QMainWindow
 public:
     explicit Menu(QWidget *parent = 0);
     ~Menu();
+
+public slots:
+    void showSomething(QAction * action);
     
 private:
-//    Ui::Menu *ui;
-    QListWidget     *mList;
-    QListWidgetItem *mListItem;
+    QLabel * mCenterLabel;
+    IntroWidget * mIntroWidget;
+    QMenu * mActionMenu;
 };
 
 #endif // MENU_H
