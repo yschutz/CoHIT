@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 
+class QListWidget;
+class QListWidgetItem;
+
 namespace Ui {
 class Menu;
 }
@@ -16,7 +19,9 @@ public:
     ~Menu();
     
 private:
-    Ui::Menu *ui;
+//    Ui::Menu *ui;
+    QListWidget     *mList;
+    QListWidgetItem *mListItem;
 };
 
 #endif // MENU_H
