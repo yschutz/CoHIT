@@ -36,8 +36,10 @@ Menu::Menu(QWidget *parent) :
     mListItem->setText("CoHIT \n A Toy for Heavy-Ion Collisions \n \n by Yves Schutz");
     mList->addItem(mListItem);
 
-    QLine * line = new QLine(50, 100, 300, 100) ;
-
+    QFrame * lineFrame = new QFrame(mList);
+    lineFrame->setFrameShape(QFrame::HLine);
+    lineFrame->setLineWidth(1);
+    lineFrame->move(200,100);
 
 }
 
