@@ -12,9 +12,10 @@ TARGET = CoHIT
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        menu.cpp
+SOURCES += main.cpp \
+    YSMenu.cpp
 
-HEADERS  += menu.h
+HEADERS  += \
+    YSMenu.h
 
 FORMS    += menu.ui
