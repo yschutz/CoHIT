@@ -2,7 +2,7 @@
 #define MENU_H
 
 #include <QtWidgets> // inclus tous le module widgets !
-#include "introwidget.h"
+//#include "introwidget.h"
 class Menu : public QMainWindow
 {
     Q_OBJECT
@@ -16,7 +16,7 @@ public slots:
     
 private:
     QLabel * mCenterLabel;
-    IntroWidget * mIntroWidget;
+//    IntroWidget * mIntroWidget;
     QMenu * mActionMenu;
 };
 
