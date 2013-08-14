@@ -13,9 +13,9 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    YSMenu.cpp
+    YSmenu.cpp
 
 HEADERS  += \
-    YSMenu.h
+    YSmenu.h
 
 FORMS    += menu.ui

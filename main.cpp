@@ -1,6 +1,5 @@
-#include "YSmenu.h"
 #include <QApplication>
-
+#include "YSmenu.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

@@ -4,8 +4,8 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QVBoxLayout>
+#include "YSmenu.h"
 
-#include "YSMenu.h"
 YSMenu::YSMenu(QWidget *parent) :
     QMainWindow(parent)
 {
