@@ -1,4 +1,3 @@
-//
 //  YSMenu.h
 //  Main Menu for the CoHIT project
 //
