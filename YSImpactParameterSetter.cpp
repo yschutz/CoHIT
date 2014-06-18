@@ -31,7 +31,7 @@ YSImpactParameterSetter::YSImpactParameterSetter(YSMenu * parent, YSCollision *c
     mbMax = coll->Nucleus(1)->Radius() + coll->Nucleus(2)->Radius();
 
     Draw();
-    connect(this, SIGNAL(destroyed()), mParent, SLOT(Update()));
+//    connect(this, SIGNAL(destroyed()), mParent, SLOT(Update()));
     connect(mOk, SIGNAL(clicked()), mParent, SLOT(Setb()));
 }
 

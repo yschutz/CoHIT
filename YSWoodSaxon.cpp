@@ -13,30 +13,11 @@
 #include "YSWoodSaxon.h"
 
 //______________________________________________________________________________
-YSWoodSaxon::YSWoodSaxon(QObject *parent) :
-    YSF1(parent), mType(kWS)
+YSWoodSaxon::YSWoodSaxon() :
+    mType(kWS)
 {
     SetName("");
-}
-
-//______________________________________________________________________________
-void YSWoodSaxon::Draw(QCustomPlot *cp)
-{
-   // Draw this
-    cp->addGraph();
-
-    QVector<double> y = GetYValues();
-    QVector<double> x = GetXValues();
-
-    cp->graph(0)->setData(x, y);
-    cp->graph(0)->setName(GetName());
-
-    cp->xAxis->setLabel("Radius (fm)");
-    cp->yAxis->setLabel("Density (/fm3)");
-    cp->yAxis->setRange(0, GetYMax() * 1.1);
-
-    cp->xAxis->setRange(GetXMin(), GetXMax());
-
+    SetAxisLabel("Radius (fm)", "Density (/fm3)");
 }
 
 //______________________________________________________________________________

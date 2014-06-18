@@ -8,16 +8,18 @@
 #ifndef YSF1_H
 #define YSF1_H
 
-#include <QObject>
 #include <QStringList>
 #include <QVector>
 
 class QCustomPlot;
-class YSF1 : public QObject
+
+#include "YSDrawableObject.h"
+
+class YSF1 : public YSDrawableObject
 {
-    Q_OBJECT
+
 public:
-    explicit YSF1(QObject *parent = 0);
+    explicit YSF1();
              YSF1(const YSF1 &);
     virtual ~YSF1() {;}
 
@@ -25,22 +27,16 @@ public:
         kTrapeze, kSimpson
     };
 
-    void            Copy(QObject &obj) const;
+    void            Copy(YSF1 &obj) const;
     int             BinarySearch(const QVector<double> array, qreal value );
-    virtual void    Draw(QCustomPlot *cp) = 0;
     virtual qreal   Eval(qreal) const = 0;
-    int             GetNumberOfBins() const { return mNumberOfBins; }
-    qreal           GetDx() const { return mDx; }
-    QString         GetName() const { return mName; }
     qreal           GetRandom(qreal xmin, qreal xmax);
-    qreal           GetXMin() const { return mXMin; }
-    qreal           GetXMax() const { return mXMax; }
     qreal           GetXStep() const { return mDx; }
-    QVector<double> GetXValues();
-    qreal           GetYMax() const { return mYMax; }
+    qreal           GetYMax() { return mYMax; }
     qreal           GetYMin() const { return mYMin; }
-    QVector<double> GetYValues();
+    void            FillYValues();
     qreal           Integral(qreal xmin, qreal xmax, YSFitRule rule) const;
+    bool            IsF1() { return true; }
     virtual void    Print() const = 0;
     void            SetXMinMax(qreal min, qreal max);
     void            SetYMinMax(qreal min, qreal max) {mYMin = min; mYMax = max;}
@@ -60,16 +56,6 @@ protected:
 
 private:
     QVector<double> mIntegral, mAlpha, mBeta, mGamma; // needed by GetRandom
-    qreal           mDx;                              // x step
-    QString         mName;                            // name of the function
-    int             mNumberOfBins;                    // number of bins
-    QObject         *mParent;                         // the parent hooked object if any
-    qreal           mXMax;                            // maximum x value
-    qreal           mXMin;                            // minimum x value
-    QVector<double> mXValues;                         // calculated x values
-    qreal           mYMax;                            // calculated max y value
-    qreal           mYMin;                            // min y value
-    QVector<double> mYValues;                         // calculated y values
 };
 
 #endif // YSF1_H

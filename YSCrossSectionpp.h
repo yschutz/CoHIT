@@ -21,10 +21,9 @@ public:
         kElastic, kInelastic, kTotal
     };
 
-    explicit YSCrossSectionpp(QObject *parent = 0);
+    explicit YSCrossSectionpp();
     virtual ~YSCrossSectionpp();
 
-    void            Draw(QCustomPlot *cp);
     qreal           Eval(qreal) const;
     void            Print() const;
     void            SetType(YSCSType);

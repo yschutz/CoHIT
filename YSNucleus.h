@@ -40,6 +40,7 @@ public:
     YSWoodSaxon *   DensityProfile() const { return mDensityProfil; }
     QVector3D *     GetNucleons() const { return mNucleons; }
     qreal           HardSphere() { return 0.4; } //fm
+    bool            IsWounded(int i) const { return mWounded[i]; }
     void            Print() const { qDebug() << A() << " " << Z(); }
     qreal           Radius() const { return mRadius; }
     qreal           RadiusMax() const { return mRadiusMax; }
@@ -49,6 +50,8 @@ public:
     void            SetRadiusMax(qreal val) { mRadiusMax = val; }
     void            SetRho0(qreal val)      { mRho0 = val; }
     void            SetSkin(qreal val)      { mSkin = val; }
+    void            SetWounded(int i, bool tf) { mWounded[i] = tf; }
+    qreal           Skin() const { return mSkin; }
 
     static  YSNucleus * Proton()     { return (YSNucleus*)(YSPeriodicTable::Proton()) ;}
     static  YSNucleus * Neutron()     { return (YSNucleus*)(YSPeriodicTable::Neutron()) ;}
@@ -70,7 +73,7 @@ private:
     qreal           mRadiusMean;     // radius at 10% of density
     qreal           mRho0;           // density parameter (fm-3)
     qreal           mSkin;           // skin thickness (fm)
-    qint8           *mWounded;       // indicates if nucleon i wounded
+    bool            *mWounded;       // indicates if nucleon i wounded
 
 };
 

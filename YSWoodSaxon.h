@@ -20,14 +20,13 @@ class YSWoodSaxon : public YSF1
     Q_OBJECT
 
 public:
-    explicit YSWoodSaxon(QObject *parent = 0);
+    explicit YSWoodSaxon();
     virtual ~YSWoodSaxon() {;}
 
     enum YSWSType {
         kWS, kRWS
     };
 
-    void  Draw(QCustomPlot *cp);
     qreal Eval(qreal) const;
     void  Print() const;
     void  SetType(YSWSType type) { mType = type; }

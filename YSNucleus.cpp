@@ -105,38 +105,39 @@ void YSNucleus::MakeNucleus()
     rws.SetParameterNames(names);
 
     mNucleons = new QVector3D[A()];
-    mWounded  = new qint8[A()];
+    mWounded  = new bool[A()];
 
     qreal sumx = 0.0, sumy = 0.0, sumz = 0.;
 
     for (int nucleon = 0; nucleon < A(); nucleon++) {
         qreal radius = rws.GetRandom(0., mRadiusMax);
         qreal phi = ((qreal)qrand() / (qreal)RAND_MAX) * 2 * M_PI;
-        qreal ctheta = 2 * ((qreal)qrand() / (qreal)RAND_MAX) - 1 ;
+        qreal ctheta = 2 * ((qreal)qrand() / (qreal)RAND_MAX) - 1;
         qreal stheta = qSqrt(1 - ctheta * ctheta);
-        (mNucleons[nucleon]).setX(radius * stheta * qCos(phi)) ;
+        (mNucleons[nucleon]).setX(radius * stheta * qCos(phi));
         (mNucleons[nucleon]).setY(radius * stheta * qSin(phi));
         (mNucleons[nucleon]).setZ(radius * ctheta);
-        mWounded[nucleon] = 0;
+        SetWounded(nucleon, false);
         qreal d = 0.0;
          for (int nucleon2 = 0; nucleon2 < nucleon; nucleon2++) {
            d = qSqrt(qPow(mNucleons[nucleon].x() - mNucleons[nucleon2].x(), 2) +
                            qPow(mNucleons[nucleon].y() - mNucleons[nucleon2].y(), 2) +
                            qPow(mNucleons[nucleon].z() - mNucleons[nucleon2].z(), 2));
            if (d < HardSphere()) {
-             nucleon-- ;
-             break ;
+             nucleon--;
+             break;
            }
          }
          if (d < HardSphere()) {
-           sumx += mNucleons[nucleon].x() ;
-           sumy += mNucleons[nucleon].y() ;
-           sumz += mNucleons[nucleon].z() ;
+           sumx += mNucleons[nucleon].x();
+           sumy += mNucleons[nucleon].y();
+           sumz += mNucleons[nucleon].z();
          }
     }
-    sumx = sumx / A() ;
-    sumy = sumy / A() ;
-    sumz = sumz / A() ;
+    sumx = sumx / A();
+    sumy = sumy / A();
+    sumz = sumz / A();
+
     for (int nucleon = 0 ; nucleon < A() ; nucleon++) {
       qreal x = mNucleons[nucleon].x() - sumx;
       qreal y = mNucleons[nucleon].y() - sumy;

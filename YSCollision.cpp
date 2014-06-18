@@ -14,7 +14,7 @@
 #include "YSNucleus.h"
 
 //______________________________________________________________________________
-YSCollision::YSCollision() : mb(0.0)
+YSCollision::YSCollision() : mb(0.0), mbMax(0.0), mbMin(0.0), mNcoll(0), mNpart(0), mTAA(0.0)
 {
     mNucleus[0] = new YSNucleus();
     mNucleus[1] = new YSNucleus();
@@ -137,8 +137,54 @@ qreal YSCollision::Gamma(int id) const
 void YSCollision::MakeCollision()
 {
     // Nuclei collide, mark wounded nucleons
+
     YSCrossSectionpp cspp;
     cspp.SetType(YSCrossSectionpp::kInelastic);
+    qreal cs = cspp.Eval(CMEnergyNNGeV());
+
+    // Two nucleons from different nuclei collide if the relative transverse distance between
+    // centers is less than the distance corresponding to the inelatic nucleon-nucleon
+    // cross section dtXY << 1/√(cspp/π)
+
+    qreal dtMin = 1E13 * qSqrt(cs * 1E-27 / M_PI);    // cs in cm2; dtMin in fm
+
+
+    qreal ximpact = 0.; // 0.0 + (qreal)(qrand()) / (qreal)RAND_MAX * (Getb()/2 - 0.0);
+    qreal yimpact = qSqrt(Getb()/2*Getb()/2 - ximpact*ximpact);
+
+    mNcoll = 0; // number of binary nucleon-nucleon collisions
+
+    for (int nucleon1 = 0; nucleon1 < Nucleus(1)->A(); nucleon1++)
+        Nucleus(1)->SetWounded(nucleon1, false);
+    for (int nucleon2 = 0; nucleon2 < Nucleus(2)->A(); nucleon2++)
+        Nucleus(2)->SetWounded(nucleon2, false);
+
+    for (int nucleon1 = 0; nucleon1 < Nucleus(1)->A(); nucleon1++) {
+      QVector3D vec1 = (Nucleus(1)->GetNucleons())[nucleon1];
+      for (int nucleon2 = 0; nucleon2 < Nucleus(2)->A(); nucleon2++) {
+        QVector3D vec2 = (Nucleus(2)->GetNucleons())[nucleon2];
+        double dtX  = (vec1.x() - ximpact) - (vec2.x() + ximpact);
+        double dtY  = (vec1.y() - yimpact) - (vec2.y() + yimpact);
+        double dtXY = qSqrt(dtX * dtX + dtY * dtY);
+        if (dtXY < dtMin) {
+          mNcoll++;
+          Nucleus(1)->SetWounded(nucleon1, true);
+          Nucleus(2)->SetWounded(nucleon2, true);
+        }
+      }
+    }
+
+    mTAA = mNcoll / cs;
+    mNpart = 0;
+    for (int nucleon1 = 0; nucleon1 < Nucleus(1)->A(); nucleon1++) {
+        if(Nucleus(1)->IsWounded(nucleon1))
+            mNpart++;
+    }
+
+    for (int nucleon2 = 0; nucleon2 < Nucleus(2)->A(); nucleon2++) {
+        if(Nucleus(2)->IsWounded(nucleon2))
+            mNpart++;
+    }
 }
 
 //______________________________________________________________________________
@@ -146,6 +192,16 @@ void YSCollision::Print() const
 {
     // print some information on the collising system
     qDebug() << Nucleus(1)->A() << " + " << Nucleus(2)->A();
+}
+
+//______________________________________________________________________________
+void YSCollision::SetbMM()
+{
+    // set the values of b, bmax and bmin
+
+    mbMax = (Nucleus(1)->Radius() + Nucleus(1)->Skin() +
+            Nucleus(2)->Radius() + Nucleus(2)->Skin()) * 1.10;
+    mbMin = 0.0;
 }
 
 //______________________________________________________________________________
@@ -158,6 +214,8 @@ void YSCollision::SetNucleus(YSIsotope *iso)
     delete mNucleus[count];
     mNucleus[count] = new YSNucleus(*iso);
     count++;
+    if (count > 1)
+        SetbMM();
 }
 
 //______________________________________________________________________________

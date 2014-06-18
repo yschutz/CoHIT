@@ -23,11 +23,18 @@ SOURCES += main.cpp \
     YSPlotWindow.cpp \
     ../qcustomplot/qcustomplot.cpp \
     YSWoodSaxon.cpp \
-    YS3Dview.cpp \
+    YS3dView.cpp \
     YSImpactParameterSetter.cpp \
     YSOverlappingCircles.cpp \
     YSCrossSectionpp.cpp \
-    YSF1.cpp
+    YSF1.cpp \
+    YSH1.cpp \
+    YSDrawableObject.cpp \
+    YSHdro3d.cpp \
+    YSGrid3dFloat.cpp \
+    YSGrid3dVector.cpp \
+    YSGrid3d.cpp \
+    YSTest.cpp
 
 HEADERS  += \
     YSMenu.h \
@@ -37,11 +44,18 @@ HEADERS  += \
     YSPlotWindow.h \
     ../qcustomplot/qcustomplot.h \
     YSWoodSaxon.h \
-    YS3DView.h \
     YSImpactParameterSetter.h \
     YSOverlappingCircles.h \
     YSCrossSectionpp.h \
-    YSF1.h
+    YSF1.h \
+    YSH1.h \
+    YSDrawableObject.h \
+    YSHydro3d.h \
+    YS3dView.h \
+    YSGrid3dFloat.h \
+    YSGrid3dVector.h \
+    YSGrid3d.h \
+    YSTest.h
 
 FORMS    += menu.ui \
     YSPlotWindow.ui

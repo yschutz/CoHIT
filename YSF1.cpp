@@ -12,9 +12,7 @@
 #include "YSF1.h"
 
 //______________________________________________________________________________
-YSF1::YSF1(QObject *parent) :
-    QObject(parent), mDx(1.0), mNumberOfBins(0), mParent(parent), mXMax(0.0), mXMin(0.0),
-    mYMax(0.0)
+YSF1::YSF1()
 {
     // ctor
     mYValues.resize(mNumberOfBins + 1);
@@ -29,13 +27,12 @@ YSF1::YSF1(const YSF1 &f1)
 }
 
 //______________________________________________________________________________
-void YSF1::Copy(QObject &obj) const
+void YSF1::Copy(YSF1 &obj) const
 {
    // copy this F1 to a new F1
     ((YSF1&) obj).mDx           = mDx;
     ((YSF1&) obj).mName         = mName;
     ((YSF1&) obj).mNumberOfBins = mNumberOfBins;
-    ((YSF1&) obj).mParent       = mParent;
     ((YSF1&) obj).mXMax         = mXMax;
     ((YSF1&) obj).mXMin         = mXMin;
     for (int index = 0; index < mNumberOfBins; index++) {
@@ -136,18 +133,7 @@ qreal YSF1::GetRandom(qreal xmin, qreal xmax)
 }
 
 //______________________________________________________________________________
-QVector<double> YSF1::GetXValues()
-{
-    // fills the array with the x values
-    mXValues.resize(mNumberOfBins + 1);
-    for(int index =0; index < mNumberOfBins; index++) {
-        mXValues[index] = index * mDx;
-    }
-    return mXValues;
-}
-
-//______________________________________________________________________________
-QVector<double> YSF1::GetYValues()
+void YSF1::FillYValues()
 {
     // fills the vector with values calculated from the function
     mYValues.resize(mNumberOfBins + 1);
@@ -167,7 +153,6 @@ QVector<double> YSF1::GetYValues()
                ymax = mYValues[index];
     }
     SetYMinMax(0.0, ymax);
-    return mYValues;
 }
 
 //______________________________________________________________________________
@@ -251,7 +236,7 @@ void YSF1::SetXMinMax(qreal min, qreal max)
     // set x min and max and calcultes step
     mXMin = min;
     mXMax = max;
-    mDx   = mXMax / mNumberOfBins ;
+    mDx   = (mXMax - mYMin) / mNumberOfBins ;
 }
 
 //______________________________________________________________________________

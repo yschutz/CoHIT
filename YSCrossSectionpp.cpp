@@ -13,60 +13,17 @@
 #include "YSCrossSectionpp.h"
 
 //______________________________________________________________________________
-YSCrossSectionpp::YSCrossSectionpp(QObject *parent) :
-   YSF1(parent)
+YSCrossSectionpp::YSCrossSectionpp()
 {
     // ctor
     SetName("pp Cross Section");
+    SetAxisLabel("√s (GeV)", "sigma (mb)");
 }
 
 //______________________________________________________________________________
 YSCrossSectionpp::~YSCrossSectionpp()
 {
     // dtor
-}
-
-//______________________________________________________________________________
-void YSCrossSectionpp::Draw(QCustomPlot *cp)
-{
-    // Draw this
-    SetNumberOfBins(100);
-    SetXMinMax(0.0, 14000);
-
-    cp->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft|Qt::AlignTop);
-
-    SetType(YSCrossSectionpp::kTotal);
-    QVector<double> y = GetYValues();
-    QVector<double> x = GetXValues();
-    cp->addGraph();
-    cp->graph(0)->setData(x, y);
-    cp->graph(0)->setPen(QPen(Qt::red));
-    cp->graph(0)->setName("Total");
-    cp->yAxis->setRange(0, GetYMax() * 1.1);
-
-
-    SetType(YSCrossSectionpp::kInelastic);
-    y = GetYValues();
-    x = GetXValues();
-    cp->addGraph();
-    cp->graph(1)->setData(x, y);
-    cp->graph(1)->setPen(QPen(Qt::green));
-    cp->graph(1)->setName("Inelastic");
-
-    SetType(YSCrossSectionpp::kElastic);
-    y = GetYValues();
-    x = GetXValues();
-    cp->addGraph();
-    cp->graph(2)->setData(x, y);
-    cp->graph(2)->setPen(QPen(Qt::gray));
-    cp->graph(2)->setName("Elastic");
-
-    //axis
-    cp->xAxis->setLabel("√s (GeV)");
-    cp->yAxis->setLabel("sigma (mb)");
-
-    cp->xAxis->setRange(GetXMin(), GetXMax());
-
 }
 
 //______________________________________________________________________________
@@ -135,6 +92,7 @@ void YSCrossSectionpp::Print() const
     default:
         break;
     }
+    qDebug() << "cross section in mb (10**-27 cm2)";
     for(int index = 0; index < mPar.size(); index++)
         qDebug() << QString("[%1] = %2").arg(index).arg(mPar[index]);
 }
@@ -143,6 +101,9 @@ void YSCrossSectionpp::Print() const
 void YSCrossSectionpp::SetType(YSCrossSectionpp::YSCSType type)
 {
     // selects among elastic, inelastic and total
+
+    // cross seection in mb
+
     mType = type;
     QVector<double> array;
 
